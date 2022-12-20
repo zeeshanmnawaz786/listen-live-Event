@@ -9,15 +9,15 @@ async function main(){
 
     const contract  = new ethers.Contract(usdtAddress, usdtABI, provider);
 
-    contract.on("Transfer", (from, to ,value, event)=>{
-        let info = {
-            from: from,
-            to: to,
-            value: ethers.utils.formatUnits(value, 6),
-            data: event,
-        };
-        console.log(JSON.stringify(info, null, 4));
-    });
+    const filter = contract.filters.Transfer();
+
+    // const result = await contract.queryFilter(filter, 16218612, 16218614)
+    const result = await contract.queryFilter("*", -10, "latest")
+
+
+    // console.log(result)
+
+        console.log(JSON.stringify(result, null, 4));
 
     }
 main()
